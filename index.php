@@ -5,7 +5,8 @@
     $hasil = $connect->query($sql);
     $cari;
     $offset;
-    $
+    $maju;
+    $mundur;
 ?>
 
 <body>
@@ -66,4 +67,7 @@
       </div>
     </div>
   </div>
-  <?php include "layout
+  <?php include "layout/jslib.php"?>
+</body>
+
+</html>

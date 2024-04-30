@@ -31,6 +31,13 @@ if (isset($_POST['submit'])) {
                 <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
                   <img src="../../assets/images/logos/dark-logo.svg" width="180" alt="">
                 </a>
+                <p><?php if (isset($message)): ?>
+                <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                  <p class="text-sm text-red-600 dark:text-red-400">
+                    <?php echo $message; ?>
+                  </p>
+                </div>
+              <?php endif; ?></p>
                 <form action="" method="post">
                   <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
