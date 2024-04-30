@@ -1,12 +1,12 @@
 <?php 
     include "layout/header.php";
     include "config/database.php";
-    $sql = 'select * from buku';
-    $hasil = $connect->query($sql);
-    $cari;
-    $offset;
-    $maju;
-    $mundur;
+    
+    $query = $_GET['query']??"";
+    $cari = "SELECT * FROM buku WHERE judul LIKE '%$query%' OR penulis LIKE '%$query%' OR penerbit LIKE '%$query%' OR tahun_terbit LIKE '%$query%' OR stok LIKE '%$query%' LIMIT 10 ";
+    
+    $hasil = $connect->query($cari);
+     
 ?>
 
 <body>
@@ -24,6 +24,10 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-body">
+            <form action="" method="get">
+              <input type="text" name="query" placeholder="Cari...">
+              <button class="">Search</button>
+            </form>  
             <!-- Data Tabel -->
             <table class="table">
                         <thead>
@@ -42,7 +46,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            while ($item = $hasil->fetch_assoc()) {
+                            foreach ($hasil as $item) {
                             ?>
                                 <tr>
                                     <td><?= $item['id_buku'] ?></td>
@@ -55,13 +59,15 @@
                                     <td><?= $item['harga_jual'] ?></td>
                                     <td><?= $item['diskon'] ?></td>
                                     <td>
-                                        <a href="update_buku.php?id_buku=<?= $item['id_buku'] ?>" class="btn btn-outline-dark-light me-2">Update</a>
-                                        <a href="delete_buku.php?id_buku=<?= $item['id_buku'] ?>" class="btn btn-outline-primary">Delete</a>
+                                        <a class="btn btn-outline-dark-light me-2">Update</a>
+                                        <a class="btn btn-outline-primary">Delete</a>
                                     </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                     </table>
+                <button type="reset"  class ="btn btn-light-success">PREVIOUS</button>
+                <button type="submit" class="btn btn-light-success">NEXT</button>
           </div>
         </div>
       </div>

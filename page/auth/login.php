@@ -2,6 +2,8 @@
 include "../../config/database.php";
 include "../../layout/header.php";
 
+
+
 session_start();
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
@@ -11,9 +13,20 @@ if (isset($_POST['submit'])) {
         $message = "Username dan password harus diisi.";
     } else{
       $sql = "SELECT * FROM kasir WHERE username = '$username'";
-      $result = $conn->query($sql);
-    } 
-    header('location:../../index.php');
+      $result = $connect->prepare($sql);
+      $result->execute(['username' => $username]);
+
+      if ($kasir) {
+        if (password_verify($password, $kasir['password'])) {
+            header('Location: ../../index.php');
+            exit;
+        } else {
+            $message = "Password salah. Silakan coba lagi.";
+        }
+    } else {
+        $message = "Username tidak ditemukan.";
+    }
+  }
 } 
 
 ?>
