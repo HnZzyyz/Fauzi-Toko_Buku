@@ -1,12 +1,13 @@
 <?php 
     include "layout/header.php";
     include "config/database.php";
+
     
     $query = $_GET['query']??"";
     $cari = "SELECT * FROM buku WHERE judul LIKE '%$query%' OR penulis LIKE '%$query%' OR penerbit LIKE '%$query%' OR tahun_terbit LIKE '%$query%' OR stok LIKE '%$query%' LIMIT 10 ";
     
     $hasil = $connect->query($cari);
-     
+    
 ?>
 
 <body>
@@ -24,9 +25,9 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-body">
-            <form action="" method="get">
-              <input type="text" name="query" placeholder="Cari...">
-              <button class="">Search</button>
+          <form action="" method="get">
+              <input type="text" name="query" class="form-control-sm" placeholder="Cari...">
+              <button class="btn-outline-primary">Search</button>
             </form>  
             <!-- Data Tabel -->
             <table class="table">

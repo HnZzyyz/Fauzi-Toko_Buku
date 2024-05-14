@@ -1,53 +1,80 @@
 <?php 
-    include "../../layout/header.php"
+    include "../../layout/header.php";
+    include "../../config/database.php";
+
+    
+    $query = $_GET['query']??"";
+    $cari = "SELECT * FROM buku WHERE judul LIKE '%$query%' OR penulis LIKE '%$query%' OR penerbit LIKE '%$query%' OR tahun_terbit LIKE '%$query%' OR stok LIKE '%$query%' LIMIT 10 ";
+    
+    $hasil = $connect->query($cari);
+    
 ?>
+
 <body>
-    <div class="container-xxl position-relative bg-white d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <?php include "../../layout/sidebar.php"?>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <?php include "../../layout/navbar.php"?>
+      <!--  Header End -->
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+          <form action="" method="get">
+              <input type="text" name="query" class="form-control-sm" placeholder="Cari...">
+              <button class="btn-outline-primary">Search</button>
+            </form>  
+            <!-- Data Tabel -->
+            <table class="table">
+                        <thead>
+                            <tr style="color: black" class="bg-transparent rounded p-5 mx-0">
+                                <th scope="col">ID</th>
+                                <th scope="col">Judul</th>
+                                <th scope="col">Penulis</th>
+                                <th scope="col">Penerbit</th>
+                                <th scope="col">Tahun_Terbit</th>
+                                <th scope="col">Stok</th>
+                                <th scope="col">Harga_Pokok</th>
+                                <th scope="col">Harga_ Jual</th>
+                                <th scope="col">Diskon</th>
+                                <th scope="col">Delete & Update</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($hasil as $item) {
+                            ?>
+                                <tr>
+                                    <td><?= $item['id_buku'] ?></td>
+                                    <td><?= $item['judul'] ?></td>
+                                    <td><?= $item['penulis'] ?></td>
+                                    <td><?= $item['penerbit'] ?></td>
+                                    <td><?= $item['tahun_terbit'] ?></td>
+                                    <td><?= $item['stok'] ?></td>
+                                    <td><?= $item['harga_pokok'] ?></td>
+                                    <td><?= $item['harga_jual'] ?></td>
+                                    <td><?= $item['diskon'] ?></td>
+                                    <td>
+                                        <a class="btn btn-outline-dark-light me-2">Update</a>
+                                        <a class="btn btn-outline-primary">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                <button type="reset"  class ="btn btn-light-success">PREVIOUS</button>
+                <button type="submit" class="btn btn-light-success">NEXT</button>
+          </div>
         </div>
-        <!-- Spinner End -->
-
-
-        <!-- Sidebar Start -->
-        <?php include "../../layout/sidebar.php"?>
-        <!-- Sidebar End -->
-
-
-        <!-- Content Start -->
-        <div class="content">
-            <!-- Navbar Start -->
-            <?php include "../../layout/navbar.php"?>
-            <!-- Navbar End -->
-
-
-            <!-- Blank Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">
-                    <div class="col-md-6 text-center">
-                        <h3>This is blank page</h3>
-                    </div>
-                </div>
-            </div>
-            <!-- Blank End -->
-
-
-            <!-- Footer Start -->
-            <?php include "../../layout/footer.php"?>
-            <!-- Footer End -->
-        </div>
-        <!-- Content End -->
-
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+      </div>
     </div>
-
-    <!-- JavaScript Libraries -->
-    <?php include "../../layout/jslib.php"?>
+  </div>
+  <?php include "../../layout/jslib.php"?>
 </body>
 
 </html>
